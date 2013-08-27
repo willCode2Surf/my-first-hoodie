@@ -1,198 +1,202 @@
-// hoodie 0.3.0
-// Hoodie
-// --------
+
+// Hoodie.js - 0.3.0
+// https://github.com/hoodiehq/hoodie.js
+// Copyright 2012, 2013 https://github.com/hoodiehq/
+// Licensed Apache License 2.0
+
+(function(global) {
+'use strict'
+
+// Hoodie Core
+// -------------
 //
 // the door to world domination (apps)
 //
 
-(function(global) {
-
-  'use strict';
-
-  // Constructor
-  // -------------
-
-  // When initializing a hoodie instance, an optional URL
-  // can be passed. That's the URL of the hoodie backend.
-  // If no URL passed it defaults to the current domain.
-  //
-  //     // init a new hoodie instance
-  //     hoodie = new Hoodie
-  //
-  function Hoodie(baseUrl) {
-    var hoodie = this;
-
-    // enforce initialization with `new`
-    if (! (hoodie instanceof Hoodie)) {
-      throw new Error('usage: new Hoodie(url);');
-    }
-
-    if (baseUrl) {
-      hoodie.baseUrl = baseUrl.replace(/\/+$/, '');
-    } else {
-      hoodie.baseUrl = '/_api'; // default to current domain
-    }
 
 
-    // hoodie.extend
-    // ---------------
+// Constructor
+// -------------
 
-    // extend hoodie instance:
-    //
-    //     hoodie.extend(function(hoodie) {} )
-    //
-    hoodie.extend = function extend(extension) {
-      extension(hoodie);
-    };
+// When initializing a hoodie instance, an optional URL
+// can be passed. That's the URL of the hoodie backend.
+// If no URL passed it defaults to the current domain.
+//
+//     // init a new hoodie instance
+//     hoodie = new Hoodie
+//
+function Hoodie(baseUrl) {
+  var hoodie = this;
 
-
-    //
-    // Extending hoodie core
-    //
-
-    /* global hoodieAccount, hoodieRemote, hoodieConfig, hoodieStore,
-              hoodiePromises, hoodieRequest, hoodieConnection, hoodieUUID, hoodieDispose, hoodieOpen
-    */
-
-    // * hoodie.bind
-    // * hoodie.on
-    // * hoodie.one
-    // * hoodie.trigger
-    // * hoodie.unbind
-    // * hoodie.off
-    /*global hoodieEvents */
-    hoodie.extend( hoodieEvents );
-
-
-    // * hoodie.defer
-    // * hoodie.isPromise
-    // * hoodie.resolve
-    // * hoodie.reject
-    // * hoodie.resolveWith
-    // * hoodie.rejectWith
-    hoodie.extend( hoodiePromises );
-
-    // * hoodie.request
-    hoodie.extend( hoodieRequest );
-
-    // * hoodie.isOnline
-    // * hoodie.checkConnection
-    hoodie.extend( hoodieConnection );
-
-    // * hoodie.uuid
-    hoodie.extend( hoodieUUID );
-
-    // * hoodie.dispose
-    hoodie.extend( hoodieDispose );
-
-    // * hoodie.open
-    hoodie.extend( hoodieOpen );
-
-    // * hoodie.store
-    hoodie.extend( hoodieStore );
-
-    // * hoodie.config
-    hoodie.extend( hoodieConfig );
-
-    // * hoodie.account
-    hoodie.extend( hoodieAccount );
-
-    // * hoodie.remote
-    hoodie.extend( hoodieRemote );
-
-    //
-    // loading user extensions
-    //
-    applyExtensions(hoodie);
-
-
-    //
-    // Initializations
-    //
-
-    // set username & hash from config (local store)
-    hoodie.account.username = hoodie.config.get('_account.username');
-    hoodie.account.ownerHash = hoodie.config.get('_account.ownerHash');
-
-    // check for pending password reset
-    hoodie.account.checkPasswordReset();
-
-    // clear config on sign out
-    hoodie.on('account:signout', hoodie.config.clear);
-
-    // hoodie.store
-    hoodie.store.patchIfNotPersistant();
-    hoodie.store.subscribeToOutsideEvents();
-    hoodie.store.bootstrapDirtyObjects();
-
-    // hoodie.remote
-    hoodie.remote.loadListOfKnownObjectsFromLocalStore();
-    hoodie.remote.subscribeToEvents();
-
-    // authenticate
-    hoodie.account.authenticate().then( hoodie.remote.connect );
+  // enforce initialization with `new`
+  if (! (hoodie instanceof Hoodie)) {
+    throw new Error('usage: new Hoodie(url);');
   }
 
-  // Extending hoodie
-  // ------------------
+  if (!baseUrl) {
+    hoodie.baseUrl = '/_api'; // default to current domain
+  } else {
+    hoodie.baseUrl = baseUrl.replace(/\/+$/, '');
+  }
 
-  // You can either extend the Hoodie class, or a hoodie
-  // instance during runtime
+
+  // hoodie.extend
+  // ---------------
+
+  // extend hoodie instance:
   //
-  //     Hoodie.extend('magic1', funcion(hoodie) { /* ... */ })
-  //     hoodie = new Hoodie
-  //     hoodie.extend('magic2', function(hoodie) { /* ... */ })
-  //     hoodie.magic1.doSomething()
-  //     hoodie.magic2.doSomethingElse()
+  //     hoodie.extend(function(hoodie) {} )
   //
-  // Hoodie can also be extended anonymously
-  //
-  //      Hoodie.extend(funcion(hoodie) { hoodie.myMagic = function() {} })
-  //
-  var extensions = [];
-  Hoodie.extend = function(extension) {
-    extensions.push(extension);
+  hoodie.extend = function extend(extension) {
+    extension(hoodie);
   };
 
+
   //
-  // detect available extensions and attach to Hoodie Object.
+  // Extending hoodie core
   //
-  function applyExtensions(hoodie) {
-    for (var i = 0; i < extensions.length; i++) {
-      extensions[i](hoodie);
-    }
+
+  /* global hoodieAccount, hoodieRemote, hoodieConfig, hoodieStore,
+            hoodiePromises, hoodieRequest, hoodieConnection, hoodieUUID, hoodieDispose, hoodieOpen
+  */
+
+  // * hoodie.bind
+  // * hoodie.on
+  // * hoodie.one
+  // * hoodie.trigger
+  // * hoodie.unbind
+  // * hoodie.off
+  /*global hoodieEvents */
+  hoodie.extend( hoodieEvents );
+
+
+  // * hoodie.defer
+  // * hoodie.isPromise
+  // * hoodie.resolve
+  // * hoodie.reject
+  // * hoodie.resolveWith
+  // * hoodie.rejectWith
+  hoodie.extend( hoodiePromises );
+
+  // * hoodie.request
+  hoodie.extend( hoodieRequest );
+
+  // * hoodie.isOnline
+  // * hoodie.checkConnection
+  hoodie.extend( hoodieConnection );
+
+  // * hoodie.uuid
+  hoodie.extend( hoodieUUID );
+
+  // * hoodie.dispose
+  hoodie.extend( hoodieDispose );
+
+  // * hoodie.open
+  hoodie.extend( hoodieOpen );
+
+  // * hoodie.store
+  hoodie.extend( hoodieStore );
+
+  // * hoodie.config
+  hoodie.extend( hoodieConfig );
+
+  // * hoodie.account
+  hoodie.extend( hoodieAccount );
+
+  // * hoodie.remote
+  hoodie.extend( hoodieRemote );
+
+
+  //
+  // Initializations
+  //
+
+  // set username from config (local store)
+  hoodie.account.username = hoodie.config.get('_account.username');
+
+  // check for pending password reset
+  hoodie.account.checkPasswordReset();
+
+  // clear config on sign out
+  hoodie.on('account:signout', hoodie.config.clear);
+
+  // hoodie.store
+  hoodie.store.patchIfNotPersistant();
+  hoodie.store.subscribeToOutsideEvents();
+  hoodie.store.bootstrapDirtyObjects();
+
+  // hoodie.remote
+  hoodie.remote.subscribeToEvents();
+
+  // authenticate
+  hoodie.account.authenticate().then( hoodie.remote.connect );
+
+  //
+  // loading user extensions
+  //
+  applyExtensions(hoodie);
+}
+
+// Extending hoodie
+// ------------------
+
+// You can either extend the Hoodie class, or a hoodie
+// instance during runtime
+//
+//     Hoodie.extend('magic1', funcion(hoodie) { /* ... */ })
+//     hoodie = new Hoodie
+//     hoodie.extend('magic2', function(hoodie) { /* ... */ })
+//     hoodie.magic1.doSomething()
+//     hoodie.magic2.doSomethingElse()
+//
+// Hoodie can also be extended anonymously
+//
+//      Hoodie.extend(funcion(hoodie) { hoodie.myMagic = function() {} })
+//
+var extensions = [];
+
+Hoodie.extend = function(extension) {
+  extensions.push(extension);
+};
+
+//
+// detect available extensions and attach to Hoodie Object.
+//
+function applyExtensions(hoodie) {
+  for (var i = 0; i < extensions.length; i++) {
+    extensions[i](hoodie);
   }
+}
 
-  //
-  // expose Hoodie to module loaders. Based on jQuery's implementation.
-  //
-  if ( typeof module === 'object' && module && typeof module.exports === 'object' ) {
+//
+// expose Hoodie to module loaders. Based on jQuery's implementation.
+//
+if ( typeof module === 'object' && module && typeof module.exports === 'object' ) {
 
-    // Expose Hoodie as module.exports in loaders that implement the Node
-    // module pattern (including browserify). Do not create the global, since
-    // the user will be storing it themselves locally, and globals are frowned
-    // upon in the Node module world.
-    module.exports = Hoodie;
+  // Expose Hoodie as module.exports in loaders that implement the Node
+  // module pattern (including browserify). Do not create the global, since
+  // the user will be storing it themselves locally, and globals are frowned
+  // upon in the Node module world.
+  module.exports = Hoodie;
 
 
-  } else if ( typeof define === 'function' && define.amd ) {
+} else if ( typeof define === 'function' && define.amd ) {
 
-    // Register as a named AMD module, since Hoodie can be concatenated with other
-    // files that may use define, but not via a proper concatenation script that
-    // understands anonymous AMD modules. A named AMD is safest and most robust
-    // way to register. Lowercase hoodie is used because AMD module names are
-    // derived from file names, and Hoodie is normally delivered in a lowercase
-    // file name.
-    define( 'hoodie', [], function () {
-      return Hoodie;
-    } );
-  } else {
+  // Register as a named AMD module, since Hoodie can be concatenated with other
+  // files that may use define, but not via a proper concatenation script that
+  // understands anonymous AMD modules. A named AMD is safest and most robust
+  // way to register. Lowercase hoodie is used because AMD module names are
+  // derived from file names, and Hoodie is normally delivered in a lowercase
+  // file name.
+  define('hoodie', function () {
+    return Hoodie;
+  });
 
-    // set global
-    global.Hoodie = Hoodie;
-  }
+} else {
 
-})(window);
+  // set global
+  global.Hoodie = Hoodie;
+}
 
 /* exported hoodieEvents */
 
@@ -211,7 +215,6 @@
 //
 
 function hoodieEvents(hoodie) {
-
   var callbacks = {};
 
   // Bind
@@ -345,7 +348,6 @@ function hoodieEvents(hoodie) {
 //
 
 function hoodiePromises (hoodie) {
-
   var $defer = window.jQuery.Deferred;
 
   // returns true if passed object is a promise (but not a deferred),
@@ -399,7 +401,6 @@ function hoodiePromises (hoodie) {
 
 //
 function hoodieRequest(hoodie) {
-
   var $extend = $.extend;
   var $ajax = $.ajax;
 
@@ -415,20 +416,28 @@ function hoodieRequest(hoodie) {
 
     options = options || {};
 
-    // if a relative path passed, prefix with @baseUrl
-    if (!/^http/.test(url)) {
+    defaults = {
+      type: type,
+      dataType: 'json'
+    };
+
+    // if absolute path passed, set CORS headers
+
+    // if relative path passed, prefix with baseUrl
+    if (! /^http/.test(url)) {
       url = '' + hoodie.baseUrl + url;
     }
 
-    defaults = {
-      type: type,
-      url: url,
-      xhrFields: {
+    // if url is cross domain, set CORS headers
+    if (/^http/.test(url)) {
+      defaults.xhrFields = {
         withCredentials: true
-      },
-      crossDomain: true,
-      dataType: 'json'
-    };
+      };
+      defaults.crossDomain = true;
+    }
+
+    defaults.url = url;
+
 
     // we are piping the result of the request to return a nicer
     // error if the request cannot reach the server at all.
@@ -475,9 +484,6 @@ function hoodieRequest(hoodie) {
 
 //
 function hoodieConnection(hoodie) {
-
-  'use strict';
-
   // state
   var online = true;
   var checkConnectionInterval = 30000;
@@ -502,7 +508,6 @@ function hoodieConnection(hoodie) {
   // - sets `checkConnectionInterval = 30000`
   //
   hoodie.checkConnection = function checkConnection() {
-
     var req = checkConnectionRequest;
 
     if (req && req.state() === 'pending') {
@@ -568,32 +573,31 @@ function hoodieConnection(hoodie) {
 
 // helper to generate unique ids.
 function hoodieUUID (hoodie) {
-  function uuid(len) {
-    var chars, i, radix;
+  var chars, i, radix;
+
+  // uuids consist of numbers and lowercase letters only.
+  // We stick to lowercase letters to prevent confusion
+  // and to prevent issues with CouchDB, e.g. database
+  // names do wonly allow for lowercase letters.
+  chars = '0123456789abcdefghijklmnopqrstuvwxyz'.split('');
+  radix = chars.length;
+
+
+  function uuid(length) {
+    var id = '';
 
     // default uuid length to 7
-    if (len === undefined) {
-      len = 7;
+    if (length === undefined) {
+      length = 7;
     }
 
-    // uuids consist of numbers and lowercase letters only.
-    // We stick to lowercase letters to prevent confusion
-    // and to prevent issues with CouchDB, e.g. database
-    // names do wonly allow for lowercase letters.
-    chars = '0123456789abcdefghijklmnopqrstuvwxyz'.split('');
-    radix = chars.length;
+    for (i = 0; i < length; i++) {
+      var rand = Math.random() * radix;
+      var char = chars[Math.floor(rand)];
+      id += String(char).charAt(0);
+    }
 
-    // eehmm, yeah.
-    return ((function() {
-      var _i, _results = [];
-
-      for (i = _i = 0; 0 <= len ? _i < len : _i > len; i = 0 <= len ? ++_i : --_i) {
-        var rand = Math.random() * radix;
-        _results.push(chars[0] = String(rand).charAt(0));
-      }
-
-      return _results;
-    })()).join('');
+    return id;
   }
 
   //
@@ -631,7 +635,6 @@ function hoodieDispose (hoodie) {
 // -------------
 
 function hoodieOpen(hoodie) {
-
   var $extend = window.jQuery.extend;
 
   // generic method to open a store. Used by
@@ -673,7 +676,6 @@ function hoodieOpen(hoodie) {
 
 /* jslint unused: false */
 function hoodieStoreApi(hoodie, options) {
-
   // public API
   var api = {};
 
@@ -904,6 +906,7 @@ function hoodieStoreApi(hoodie, options) {
   //
   api.updateAll = function updateAll(filterOrObjects, objectUpdate, options) {
     var promise;
+
     options = options || {};
 
     // normalize the input: make sure we have all objects
@@ -985,10 +988,10 @@ function hoodieStoreApi(hoodie, options) {
 
   // proxies to hoodie.trigger
   api.trigger = function trigger() {
-    var eventName, parameters, _ref;
-    eventName = arguments[0],
-    parameters = 2 <= arguments.length ? Array.prototype.slice.call(arguments, 1) : [];
-    return (_ref = hoodie).trigger.apply(_ref, [storeName + ':' + eventName].concat(Array.prototype.slice.call(parameters)));
+    var eventName;
+    eventName = arguments[0];
+    var parameters = 2 <= arguments.length ? Array.prototype.slice.call(arguments, 1) : [];
+    return hoodie.trigger.apply(hoodie, [storeName + ':' + eventName].concat(Array.prototype.slice.call(parameters)));
   };
 
 
@@ -1007,7 +1010,7 @@ function hoodieStoreApi(hoodie, options) {
 
   // proxies to hoodie.unbind
   api.unbind = function unbind(eventName, callback) {
-    eventName = storeName +':' + eventName;
+    eventName = eventName.replace(/(^| )([^ ]+)/g, '$1'+storeName+':$2');
     return hoodie.unbind(eventName, callback);
   };
 
@@ -1017,8 +1020,11 @@ function hoodieStoreApi(hoodie, options) {
   if (! options.backend ) {
     throw new Error('options.backend must be passed');
   }
+
   var required = 'save find findAll remove removeAll'.split(' ');
+
   required.forEach( function(methodName) {
+
     if (!options.backend[methodName]) {
       throw new Error('options.backend.'+methodName+' must be passed.');
     }
@@ -1417,6 +1423,10 @@ function hoodieRemoteStore (hoodie, options) {
   //
   var since = options.since || 0; // TODO: spec that!
   remote.getSinceNr = function getSinceNr() {
+    if (typeof since === 'function') {
+      return since();
+    }
+
     return since;
   };
 
@@ -1430,7 +1440,7 @@ function hoodieRemoteStore (hoodie, options) {
   //
   remote.bootstrap = function bootstrap() {
     remote.trigger('bootstrap:start');
-    return remote.pull().done( handleBootstrapSuccess.bind(this) );
+    return remote.pull().done( handleBootstrapSuccess );
   };
 
 
@@ -1450,7 +1460,7 @@ function hoodieRemoteStore (hoodie, options) {
       pullRequestTimeout = window.setTimeout(restartPullRequest, 25000);
     }
 
-    return pullRequest.then(handlePullSuccess, handlePullError);
+    return pullRequest.done(handlePullSuccess).fail(handlePullError);
   };
 
 
@@ -1537,11 +1547,17 @@ function hoodieRemoteStore (hoodie, options) {
   // setSinceNr
   // ------------
 
-  // sets the sequence number from wich to start to find changes in pull
+  // sets the sequence number from wich to start to find changes in pull.
+  // If remote store was initialized with since : function(nr) { ... },
+  // call the function with the seq passed. Otherwise simply set the seq
+  // number and return it.
   //
   function setSinceNr(seq) {
+    if (typeof since === 'function') {
+      return since(seq);
+    }
+
     since = seq;
-    remote.trigger('pull', since); // TODO: spec that
     return since;
   }
 
@@ -2170,17 +2186,17 @@ function hoodieStore (hoodie) {
   // ----------
 
   //
-  function validate (type, id /*, object */ ) {
+  function validate (object) {
 
-    if (!isValidType(type)) {
+    if (!isValidType(object.type)) {
       return Hoodie.Errors.INVALID_KEY({
-        type: type
+        type: object.type
       });
     }
 
-    if (arguments.length > 0 && !isValidId(id)) {
+    if (arguments.length > 0 && !isValidId(object.id)) {
       return Hoodie.Errors.INVALID_KEY({
-        id: id
+        id: object.id
       });
     }
   }
@@ -2712,7 +2728,7 @@ function hoodieStore (hoodie) {
       method = methodCall[0];
       args = methodCall[1];
       defer = methodCall[2];
-      store[method].apply(store, args).then(defer.resolve, defer.reject);
+      localStore[method].apply(localStore, args).then(defer.resolve, defer.reject);
     }
 
     store.trigger('bootstrap:end');
@@ -2777,7 +2793,6 @@ function hoodieStore (hoodie) {
 
 //
 function hoodieConfig(hoodie) {
-
   var type = '$config';
   var id = 'hoodie';
   var cache = {};
@@ -2855,7 +2870,6 @@ function hoodieConfig(hoodie) {
 
 //
 function hoodieAccount (hoodie) {
-
   // public API
   var account = {};
 
@@ -2937,6 +2951,7 @@ function hoodieAccount (hoodie) {
   // to sign in with a 300ms timeout.
   //
   account.signUp = function signUp(username, password) {
+
     if (password === undefined) {
       password = '';
     }
@@ -3035,7 +3050,6 @@ function hoodieAccount (hoodie) {
     return hoodie.config.set(anonymousPasswordKey, password);
   }
 
-  // TODO: hide from public API
   function getAnonymousPassword() {
     return hoodie.config.get(anonymousPasswordKey);
   }
@@ -3102,7 +3116,6 @@ function hoodieAccount (hoodie) {
       });
     }
     hoodie.remote.disconnect();
-    // return sendSignOutRequest().then(cleanupAndTriggerSignOut);
     return sendSignOutRequest().then(cleanupAndTriggerSignOut);
   };
 
@@ -3222,6 +3235,7 @@ function hoodieAccount (hoodie) {
   //
   account.resetPassword = function resetPassword(username) {
     var data, key, options, resetPasswordId;
+
     resetPasswordId = hoodie.config.get('_account.resetPasswordId');
 
     if (resetPasswordId) {
@@ -3633,8 +3647,7 @@ function hoodieAccount (hoodie) {
   // turn an anonymous account into a real account
   //
   function upgradeAnonymousAccount(username, password) {
-    var currentPassword;
-    currentPassword = getAnonymousPassword();
+    var currentPassword = getAnonymousPassword();
 
     return changeUsernameAndPassword(currentPassword, username, password).done(function() {
       account.trigger('signup', username);
@@ -3891,6 +3904,7 @@ function hoodieAccount (hoodie) {
   //       other modules depend on it as well, like hoodie.store.
   // the ownerHash gets stored in every object created by the user.
   // Make sure we have one.
+  hoodie.account.ownerHash = hoodie.config.get('_account.ownerHash');
   if (!hoodie.account.ownerHash) {
     setOwner(hoodie.uuid());
   }
@@ -3912,7 +3926,6 @@ function hoodieAccount (hoodie) {
 //
 
 function hoodieRemote (hoodie) {
-
   // inherit from Hoodies Store API
   var remote = hoodie.open(hoodie.account.db(), {
 
@@ -3923,7 +3936,7 @@ function hoodieRemote (hoodie) {
     prefix: '',
 
     //
-    since: hoodie.config.get('_remote.since') || 0,
+    since: sinceNrCallback,
 
     //
     defaultObjectsToPush: hoodie.store.changedObjects,
@@ -3935,23 +3948,65 @@ function hoodieRemote (hoodie) {
     })
   });
 
+  // trigger
+  // ---------
+
+  // proxies to hoodie.trigger
+  remote.trigger = function trigger() {
+    var eventName;
+
+    eventName = arguments[0];
+
+    var parameters = 2 <= arguments.length ? Array.prototype.slice.call(arguments, 1) : [];
+
+    return hoodie.trigger.apply(hoodie, ['remote:' + eventName].concat(Array.prototype.slice.call(parameters)));
+  };
+
+
+  // on
+  // ---------
+
+  // proxies to hoodie.on
+  remote.on = function on(eventName, data) {
+    eventName = eventName.replace(/(^| )([^ ]+)/g, '$1'+'remote:$2');
+    return hoodie.on(eventName, data);
+  };
+
+
+  // unbind
+  // ---------
+
+  // proxies to hoodie.unbind
+  remote.unbind = function unbind(eventName, callback) {
+    eventName = eventName.replace(/(^| )([^ ]+)/g, '$1'+'remote:$2');
+    return hoodie.unbind(eventName, callback);
+  };
+
 
   // Private
   // ---------
+
+  // getter / setter for since number
+  //
+  function sinceNrCallback(sinceNr) {
+    if (sinceNr) {
+      return hoodie.config.set('_remote.since', sinceNr);
+    }
+
+    return hoodie.config.get('_remote.since') || 0;
+  }
 
   //
   // subscribe to events coming from account
   //
   function subscribeToEvents() {
 
-    remote.on('disconnect', function() {
-      hoodie.unbind('store:idle', remote.push);
-    });
-    remote.on('connect', function() {
+    hoodie.on('remote:connect', function() {
       hoodie.on('store:idle', remote.push);
     });
-    remote.on('pull', function(since) {
-      hoodie.config.set('_remote.since', since);
+
+    hoodie.on('remote:disconnect', function() {
+      hoodie.unbind('store:idle', remote.push);
     });
 
     hoodie.on('reconnected', remote.connect);
@@ -3959,8 +4014,9 @@ function hoodieRemote (hoodie) {
     // account events
     hoodie.on('account:signin', function() {
       remote.name = hoodie.account.db();
-      return remote.connect();
+      remote.connect();
     });
+
     hoodie.on('account:reauthenticated', remote.connect);
     hoodie.on('account:signout', remote.disconnect);
   }
@@ -3976,3 +4032,5 @@ function hoodieRemote (hoodie) {
   //
   hoodie.remote = remote;
 }
+
+})(window);
