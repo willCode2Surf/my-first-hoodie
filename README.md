@@ -1,22 +1,22 @@
-# Creating a new Hoodie App
+# Creating a new ARMT App
 
 ## Installation
 
-Please refer to the [install guides for OS X, Linux and Windows](http://hood.ie/#installation).
+Please refer to the [install guides for OS X, Linux and Windows](http://URL/#installation).
 
 ## Plugins
 
 To install a specific plugin, run (in your app's directory):
 
-    $ hoodie install <name>
+    $ armt install <name>
 
-where `<name>` is one of the Hoodie Plugin.
+where `<name>` is one of the ARMT Plugin.
 
 To uninstall use:
 
-    $ hoodie uninstall <name>
+    $ armt uninstall <name>
 
-### List of Hoodie Plugins
+### List of ARMT Plugins
 
 * users (installed by default)
   - user sign up
@@ -36,7 +36,7 @@ fact that you have prior used the 'sudo' command to install node
 modules.
 
 `sudo -H npm yourCommand` should fix this. For slightly more detail,
-please check out: blog.hood.ie/2014/02/why-you-shouldnt-use-sudo-with-npm/
+please check out: blog.URL/2014/02/why-you-shouldnt-use-sudo-with-npm/
 
 Make sure that local-tld got installed correctly
 
@@ -73,7 +73,7 @@ If things STILL don't work, try that (but don't tell Jan) ((I saw this! — Jan)
 
 **Vhosts**
 
-If you find Hoodie interfering with your vhosts, here's a temporary workaround:
+If you find ARMT interfering with your vhosts, here's a temporary workaround:
 
 To get your vhosts back: `$ sudo ipfw flush`
 
@@ -86,14 +86,14 @@ If this includes something like "00100 fwd 127.0.0.1,5999 tcp from any to me dst
 
 You need a Nodejitsu account and the `jitsu` tool installed.
 
-Create a new hoodie app:
+Create a new armt app:
 
-    $ hoodie new myapp
+    $ armt new myapp
 
 Start app locally:
 
     $ cd myapp
-    $ hoodie start
+    $ armt start
 
 Create a database:
 
@@ -138,11 +138,11 @@ Boom.
 
 <!--## Deploy dreamcode tl;dr
 
-    $ hoodie new myapp
+    $ armt new myapp
     $ cd myapp
-    $ hoodie start
+    $ armt start
 
-    $ hoodie remote add nodejitsu
+    $ armt remote add nodejitsu
      - jitsu login
      - jitsu database create couch myapp
          - setup couchdb admin
@@ -150,5 +150,5 @@ Boom.
      - jitsu env set COUCH_URL http://...
      - jitsu env set COUCH_PASS <secret>
 
-    $ hoodie deploy
+    $ armt deploy
      - jitsu deploy-->

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>{{hoodie_appname}}</title>
+    <title>{{armt_appname}}</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
 
@@ -23,14 +23,14 @@
 
           <div class="armt-account-signedout">
             <span class="btn-group">
-              <button class="btn btn-small btn-inverse" data-hoodie-action="signup">Sign Up</button>
+              <button class="btn btn-small btn-inverse" data-armt-action="signup">Sign Up</button>
               <button class="btn btn-small dropdown-toggle btn-inverse" data-toggle="dropdown">
                 <span class="caret"></span>
               </button>
               <ul class="dropdown-menu pull-right">
-                <li><a href="#" data-hoodie-action="signin">Sign In</a></li>
-                <li><a href="#" data-hoodie-action="resetpassword">Reset Password</a></li>
-                <li><a href="#" data-hoodie-action="destroy">Clear local data</a></li>
+                <li><a href="#" data-armt-action="signin">Sign In</a></li>
+                <li><a href="#" data-armt-action="resetpassword">Reset Password</a></li>
+                <li><a href="#" data-armt-action="destroy">Clear local data</a></li>
               </ul>
             </span>
           </div><!-- /.armt-account-signedout -->
@@ -44,9 +44,9 @@
                 <span class="caret"></span>
               </button>
               <ul class="dropdown-menu pull-right">
-                <li><a href="#" data-hoodie-action="changepassword">Change Password</a></li>
-                <li><a href="#" data-hoodie-action="changeusername">Change Username</a></li>
-                <li><a href="#" data-hoodie-action="destroy">Destroy Account</a></li>
+                <li><a href="#" data-armt-action="changepassword">Change Password</a></li>
+                <li><a href="#" data-armt-action="changeusername">Change Username</a></li>
+                <li><a href="#" data-armt-action="destroy">Destroy Account</a></li>
               </ul>
             </span>
           </div><!-- /.armt-account-signedin -->
@@ -63,8 +63,8 @@
                 <li><a href="#" data-armt-action="signout">Sign out</a></li>
               </ul>
             </span>
-          </div><!-- /.hoodie-account-error -->
-        </div><!--/hoodieAccountBar -->
+          </div><!-- /.armt-account-error -->
+        </div><!--/armtAccountBar -->
       </div>
 
       <div class="content">
@@ -116,7 +116,7 @@ function sortByCreatedAt(a, b) {
     <script src="assets/vendor/jquery-1.9.1.js"></script>
     <script src="assets/vendor/bootstrap/bootstrap.js"></script>
     <script src="assets/vendor/prism/prism.js"></script>
-    <!-- Load the dynamic version of hoodie.js that includes all the plugin code-->
+    <!-- Load the dynamic version of armt.js that includes all the plugin code-->
     <script src="/_api/_files/armt.js"></script>
 
     <script src="assets/vendor/armt.accountbar.bootstrap.js"></script>
