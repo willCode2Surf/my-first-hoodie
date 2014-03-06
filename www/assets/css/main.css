@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Hoodie Sign In / Sign Up / Sign out stylings
+   ARMT Sign In / Sign Up / Sign out stylings
    ========================================================================== */
 
 body {
@@ -15,19 +15,19 @@ body {
 
 
 /* hide contents until we know if user is signed in or not */
-body .hoodie-account-signedin,
-body .hoodie-account-signedout,
-body .hoodie-account-error {
+body .armt-account-signedin,
+body .armt-account-signedout,
+body .armt-account-error {
   display: none;
 }
 
-html[data-hoodie-account-status=signedin]  .hoodie-account-signedin,
-html[data-hoodie-account-status=error]     .hoodie-account-error,
-html[data-hoodie-account-status=signedout] .hoodie-account-signedout {
+html[data-hoodie-account-status=signedin]  .armt-account-signedin,
+html[data-hoodie-account-status=error]     .armt-account-error,
+html[data-hoodie-account-status=signedout] .armt-account-signedout {
   display: block;
 }
 
-.hoodie-accountbar {
+.armt-accountbar {
   position: absolute;
   top: 20px;
   right: 10px;
