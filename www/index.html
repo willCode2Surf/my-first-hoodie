@@ -14,14 +14,14 @@
   <body>
     <div class="container">
       <div class="hero-unit">
-        <h1>{{hoodie_appname}}</h1>
+        <h1>{{armt_appname}}</h1>
         <p>
-          hoodie playground.
+          armt app playground.
         </p>
 
-        <div class="hoodie-accountbar">
+        <div class="armt-accountbar">
 
-          <div class="hoodie-account-signedout">
+          <div class="armt-account-signedout">
             <span class="btn-group">
               <button class="btn btn-small btn-inverse" data-hoodie-action="signup">Sign Up</button>
               <button class="btn btn-small dropdown-toggle btn-inverse" data-toggle="dropdown">
@@ -33,13 +33,13 @@
                 <li><a href="#" data-hoodie-action="destroy">Clear local data</a></li>
               </ul>
             </span>
-          </div><!-- /.hoodie-account-signedout -->
+          </div><!-- /.armt-account-signedout -->
 
-          <div class="hoodie-account-signedin">
+          <div class="armt-account-signedin">
             Hello,
-            <span class="hoodie-username"><!-- usern name will be filled in here --></span>
+            <span class="armt-username"><!-- usern name will be filled in here --></span>
             <span class="btn-group">
-              <button class="btn btn-small btn-inverse" data-hoodie-action="signout">Sign Out</button>
+              <button class="btn btn-small btn-inverse" data-armt-action="signout">Sign Out</button>
               <button class="btn btn-small dropdown-toggle btn-inverse" data-toggle="dropdown">
                 <span class="caret"></span>
               </button>
@@ -49,18 +49,18 @@
                 <li><a href="#" data-hoodie-action="destroy">Destroy Account</a></li>
               </ul>
             </span>
-          </div><!-- /.hoodie-account-signedin -->
+          </div><!-- /.armt-account-signedin -->
 
-          <div class="hoodie-account-error">
+          <div class="armt-account-error">
             Hello,
-            <span class="hoodie-username"><!-- usern name will be filled in here --></span>.
+            <span class="armt-username"><!-- usern name will be filled in here --></span>.
             <span class="btn-group">
-              <button class="btn btn-small btn-danger" data-hoodie-action="signin">Authentication error: Sign in again</button>
+              <button class="btn btn-small btn-danger" data-armt-action="signin">Authentication error: Sign in again</button>
               <button class="btn btn-small dropdown-toggle btn-danger" data-toggle="dropdown">
                 <span class="caret"></span>
               </button>
               <ul class="dropdown-menu pull-right">
-                <li><a href="#" data-hoodie-action="signout">Sign out</a></li>
+                <li><a href="#" data-armt-action="signout">Sign out</a></li>
               </ul>
             </span>
           </div><!-- /.hoodie-account-error -->
@@ -75,23 +75,23 @@
 
       <div class="code">
 <pre class="language-javascript"><code class="language-javascript">
-// initialize Hoodie
-var hoodie  = new Hoodie()
+// initialize ARMT
+var armt  = new ARMT()
 
 // initial load of all todo items from the store
-hoodie.store.findAll('todo').then( function(todos) {
+armt.store.findAll('todo').then( function(todos) {
   todos.sort( sortByCreatedAt ).forEach( addTodo )
 })
 
 // when a new todo gets stored, add it to the UI
-hoodie.store.on('add:todo', addTodo)
+armt.store.on('add:todo', addTodo)
 // when a user signs out, clear the todo list
-hoodie.account.on('signout', clearTodos)
+armt.account.on('signout', clearTodos)
 
 // handle creating a new task
 $('#todoinput').on('keypress', function(event) {
   if (event.keyCode == 13) { // ENTER
-    hoodie.store.add('todo', {title: event.target.value});
+    armt.store.add('todo', {title: event.target.value});
     event.target.value = '';
   }
 })
@@ -109,7 +109,7 @@ function sortByCreatedAt(a, b) {
       </div><!-- /.code -->
 
       <footer class="copy">
-        <p>&hearts; hood.ie 2013</p>
+        <p></p>
       </footer>
     </div> <!-- /.container -->
 
@@ -117,9 +117,9 @@ function sortByCreatedAt(a, b) {
     <script src="assets/vendor/bootstrap/bootstrap.js"></script>
     <script src="assets/vendor/prism/prism.js"></script>
     <!-- Load the dynamic version of hoodie.js that includes all the plugin code-->
-    <script src="/_api/_files/hoodie.js"></script>
+    <script src="/_api/_files/armt.js"></script>
 
-    <script src="assets/vendor/hoodie.accountbar.bootstrap.js"></script>
+    <script src="assets/vendor/armt.accountbar.bootstrap.js"></script>
     <script src="assets/vendor/bootstrap.modalform.js"></script>
     <script src="assets/js/main.js"></script>
   </body
